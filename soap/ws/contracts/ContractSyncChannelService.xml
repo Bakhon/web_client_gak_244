@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns2="http://bip.bee.kz/SyncChannel/v10/Types" xmlns:ns1="http://bip.bee.kz/SyncChannel/v10/Interfaces" name="ISyncChannel" targetNamespace="http://bip.bee.kz/SyncChannel/v10/Interfaces">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://enbek.kz/contract/ws/schemas" targetNamespace="http://enbek.kz/contract/ws/schemas" version="1.0">
+
+  <xs:element name="contractData" type="tns:ContractData"/>
+
+  <xs:element name="contractRequest" type="tns:ContractRequest"/>
+
+  <xs:element name="contractResponse" type="tns:ContractResponse"/>
+
+  <xs:element name="employeeData" type="tns:EmployeeData"/>
+
+  <xs:element name="employerData" type="tns:EmployerData"/>
+
+  <xs:element name="newContractData" type="tns:NewContractData"/>
+
+  <xs:element name="subsidiaryContractData" type="tns:SubsidiaryContractData"/>
+
+  <xs:element name="termContractData" type="tns:TermContractData"/>
+
+  <xs:complexType name="EmployerData">
+    <xs:sequence>
+      <xs:element name="bin" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ContractData">
+    <xs:sequence>
+      <xs:element name="contractNumber" type="xs:string"/>
+      <xs:element name="contractDate" type="xs:date"/>
+      <xs:element name="beginDate" type="xs:date"/>
+      <xs:element name="endDate" type="xs:date"/>
+      <xs:element name="position" type="xs:string"/>
+      <xs:element name="isConscript" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SubsidiaryContractData">
+    <xs:sequence>
+      <xs:element name="contractNumber" type="xs:string"/>
+      <xs:element name="subsidiaryContractNumber" type="xs:string"/>
+      <xs:element name="position" type="xs:string"/>
+      <xs:element name="isConscript" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ContractRequest">
+    <xs:sequence>
+      <xs:element name="employerData" type="tns:EmployerData"/>
+      <xs:element name="newContractData" type="tns:NewContractData"/>
+      <xs:element name="terminationContractData" type="tns:TermContractData"/>
+      <xs:element name="subsidiaryContractData" type="tns:SubsidiaryContractData"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NewContractData">
+    <xs:sequence>
+      <xs:element name="employeeData" type="tns:EmployeeData"/>
+      <xs:element name="contractData" type="tns:ContractData"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="EmployeeData">
+    <xs:sequence>
+      <xs:element name="iin" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TermContractData">
+    <xs:sequence>
+      <xs:element name="contractNumber" type="xs:string"/>
+      <xs:element name="terminationDate" type="xs:date"/>
+      <xs:element name="terminationReason" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ContractResponse">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bip.bee.kz/common/v10/Types" targetNamespace="http://bip.bee.kz/common/v10/Types" version="1.0">
+
+  <xs:complexType name="SenderInfo">
+    <xs:sequence>
+      <xs:element name="senderId" type="xs:string"/>
+      <xs:element minOccurs="0" name="password" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Property">
+    <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="StatusInfo">
+    <xs:sequence>
+      <xs:element name="code" type="xs:string"/>
+      <xs:element name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ErrorInfo">
+    <xs:sequence>
+      <xs:element name="errorCode" type="xs:string"/>
+      <xs:element name="errorMessage" type="xs:string"/>
+      <xs:element minOccurs="0" name="errorData" type="xs:string"/>
+      <xs:element name="errorDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="subError" type="tns:ErrorInfo"/>
+      <xs:element minOccurs="0" name="sessionId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bip.bee.kz/SyncChannel/v10/Types/Response" xmlns:ns2="http://bip.bee.kz/SyncChannel/v10/Types" xmlns:ns1="http://bip.bee.kz/common/v10/Types" targetNamespace="http://bip.bee.kz/SyncChannel/v10/Types/Response" version="1.0">
+
+  <xs:import namespace="http://bip.bee.kz/common/v10/Types"/>
+
+  <xs:import namespace="http://bip.bee.kz/SyncChannel/v10/Types"/>
+
+  <xs:complexType name="SyncSendMessageResponse">
+    <xs:sequence>
+      <xs:element name="responseInfo" type="ns2:SyncMessageInfoResponse"/>
+      <xs:element name="responseData" type="tns:ResponseData"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ResponseData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="data" type="xs:anyType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bip.bee.kz/SyncChannel/v10/Types/Request" xmlns:ns2="http://bip.bee.kz/SyncChannel/v10/Types" xmlns:ns1="http://bip.bee.kz/common/v10/Types" targetNamespace="http://bip.bee.kz/SyncChannel/v10/Types/Request" version="1.0">
+
+  <xs:import namespace="http://bip.bee.kz/common/v10/Types"/>
+
+  <xs:import namespace="http://bip.bee.kz/SyncChannel/v10/Types"/>
+
+  <xs:complexType name="SyncSendMessageRequest">
+    <xs:sequence>
+      <xs:element name="requestInfo" type="ns2:SyncMessageInfo"/>
+      <xs:element name="requestData" type="tns:RequestData"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RequestData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="data" type="xs:anyType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://bip.bee.kz/SyncChannel/v10/Types" xmlns:ns3="http://bip.bee.kz/SyncChannel/v10/Types/Response" xmlns:ns2="http://bip.bee.kz/common/v10/Types" xmlns:ns1="http://bip.bee.kz/SyncChannel/v10/Types/Request" targetNamespace="http://bip.bee.kz/SyncChannel/v10/Types" version="1.0">
+
+  <xs:import namespace="http://bip.bee.kz/SyncChannel/v10/Types/Request"/>
+
+  <xs:import namespace="http://bip.bee.kz/common/v10/Types"/>
+
+  <xs:import namespace="http://bip.bee.kz/SyncChannel/v10/Types/Response"/>
+
+  <xs:element name="SendMessage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="request" nillable="true" type="ns1:SyncSendMessageRequest"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="SendMessageFault1_SendMessageFault" type="ns2:ErrorInfo"/>
+
+  <xs:element name="SendMessageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="response" nillable="true" type="ns3:SyncSendMessageResponse"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="SyncMessageInfo">
+    <xs:sequence>
+      <xs:element name="messageId" type="xs:string"/>
+      <xs:element minOccurs="0" name="correlationId" type="xs:string"/>
+      <xs:element name="serviceId" type="xs:string"/>
+      <xs:element name="messageDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="routeId" type="xs:string"/>
+      <xs:element name="sender" type="ns2:SenderInfo"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="properties" nillable="true" type="ns2:Property"/>
+      <xs:element minOccurs="0" name="sessionId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SyncMessageInfoResponse">
+    <xs:sequence>
+      <xs:element name="messageId" type="xs:string"/>
+      <xs:element minOccurs="0" name="correlationId" type="xs:string"/>
+      <xs:element name="responseDate" type="xs:dateTime"/>
+      <xs:element name="status" type="ns2:StatusInfo"/>
+      <xs:element minOccurs="0" name="sessionId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="SendMessage">
+    <wsdl:part element="ns2:SendMessage" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SendMessageSendMessageFaultMsg">
+    <wsdl:part element="ns2:SendMessageFault1_SendMessageFault" name="SendMessageSendMessageFaultMsg">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SendMessageResponse">
+    <wsdl:part element="ns2:SendMessageResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ISyncChannel">
+    <wsdl:operation name="SendMessage">
+      <wsdl:input message="ns1:SendMessage" name="SendMessage">
+    </wsdl:input>
+      <wsdl:output message="ns1:SendMessageResponse" name="SendMessageResponse">
+    </wsdl:output>
+      <wsdl:fault message="ns1:SendMessageSendMessageFaultMsg" name="SendMessageSendMessageFaultMsg">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

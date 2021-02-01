@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema     
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://enbek.kz/contract/ws/schemas"
+    targetNamespace="http://enbek.kz/contract/ws/schemas">
+    
+    <xs:complexType name="ContractRequest">
+        <xs:annotation>
+            <xs:documentation>Состав данных запроса для регистрации договора/расторжения договора/доп соглашения</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="newContractData" type="tns:NewContractData"/>
+            <xs:element name="updateDocument" type="tns:UpdateDocumentData"/>
+            <xs:element name="terminationContractData" type="tns:TermContractData"/>
+            <xs:element name="subsidiaryContractData" type="tns:SubsidiaryContractData"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="ContractResponse">
+        <xs:annotation>
+            <xs:documentation>Состав данных ответа при регистрации трудового договора</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="id" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="EmployerData">
+        <xs:annotation>
+            <xs:documentation>Реквизиты работодателя</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="bin" type="xs:string" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>ИИН/БИН работодателя</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+            
+    <xs:complexType name="NewContractData">
+        <xs:annotation>
+            <xs:documentation>Состав данных нового трудового договора</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>            
+            <xs:element name="employerData" type="tns:EmployerData"/>
+            <xs:element name="employeeData" type="tns:EmployeeData"/>
+            <xs:element name="contractData" type="tns:ContractData"/>
+            <xs:element name="documentData" type="tns:DocumentData"/>
+        </xs:sequence>
+    </xs:complexType>
+                        
+    <xs:complexType name="EmployeeData">
+        <xs:annotation>
+            <xs:documentation>Реквизиты работника</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>            
+            <xs:element name="iin" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>ИИН работника</xs:documentation>
+                </xs:annotation>
+            </xs:element>            
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="ContractData">
+        <xs:annotation>
+            <xs:documentation>Информация о договоре</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>                        
+            <xs:element name="contractNumber" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Номер договора</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="contractDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Дата договора</xs:documentation>
+                </xs:annotation>
+            </xs:element>            
+            <xs:element name="beginDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Дата начала работы</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="endDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Дата окончания работы</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="position" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Должность</xs:documentation>
+                </xs:annotation>
+            </xs:element>            
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="TermContractData">
+        <xs:annotation>
+            <xs:documentation>Информация о расторжении договора</xs:documentation>
+        </xs:annotation>
+        <xs:sequence> 
+            <xs:element name="employerData" type="tns:EmployerData"/>
+            <xs:element name="contractNumber" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Номер договора</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="terminationDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Дата расторжения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="terminationReason" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Причина расторжения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="SubsidiaryContractData">
+        <xs:annotation>
+            <xs:documentation>Информация о дополнительном соглашении</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="employerData" type="tns:EmployerData"/> 
+            <xs:element name="contractNumber" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Номер договора</xs:documentation>
+                </xs:annotation>
+            </xs:element>            
+            <xs:element name="subsidiaryContractNumber" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Номер дополнительного договора</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="subsidiaryContractDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Дата договора</xs:documentation>
+                </xs:annotation>
+            </xs:element>            
+            <xs:element name="beginDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Дата начала работы</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="endDate" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation>Дата окончания работы</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="position" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Должность</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="UpdateDocumentData">
+        <xs:annotation>
+            <xs:documentation>Обновление документов</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>            
+            <xs:element name="employerData" type="tns:EmployerData"/>
+            <xs:element name="contractNumber" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Номер договора</xs:documentation>
+                </xs:annotation>
+            </xs:element>            
+            <xs:element name="documentData" type="tns:DocumentData"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="DocumentData">
+        <xs:annotation>
+            <xs:documentation>Дополнительные документы к договору</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="conscript" type="xs:int">
+                <xs:annotation>
+                    <xs:documentation>Военнообязанный</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>    
+</xs:schema>

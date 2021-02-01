@@ -1,0 +1,78 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://bip.bee.kz/SyncChannel/v10/Types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:SendMessage>
+         <request>
+            <requestInfo>
+               <messageId>533a94f7-5900-29a6-e054-001b782b8430</messageId>
+               <serviceId>contract</serviceId>
+               <messageDate>2017-08-25T17:02:36</messageDate>
+               <sender>
+                  <senderId>TEST</senderId>
+                  <password>TEST</password>
+               </sender>
+            </requestInfo>
+            <requestData>
+               <data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><ns3:contractRequest xmlns:ns3="http://enbek.kz/contract/ws/schemas" xmlns:ns2="http://bip.bee.kz/SyncChannel/v10/Types"><employerData><bin>460529401100</bin></employerData><terminationContractData><contractNumber>100026/15</contractNumber><terminationDate>2018-05-28+06:00</terminationDate><terminationReason>01</terminationReason></terminationContractData><ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+<ds:SignedInfo>
+<ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+<ds:Reference URI="">
+<ds:Transforms>
+<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+<ds:Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments"/>
+</ds:Transforms>
+<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+<ds:DigestValue>/fy2FuO5Xtr5f20lPPW7Q/3uk00GFyeZOA5iMAJsM7o=</ds:DigestValue>
+</ds:Reference>
+</ds:SignedInfo>
+<ds:SignatureValue>
+Q2wlaFNUrcfYGjQLvHgKMG+gw46wVL6UYe5ffqXWohPE/FELp5AzJYeyKzxah0Dh2xJhqITgnIlw
+CkT8Ux74iF4x+U9EQdRtsuippUXD8Ha6jsNZMe0I88M91ntJFyyatZ67g3ZpWguMLcGvmyrBxHql
+u3ozD76lk3iccDAa4sdxl5aFUaQDAFyINeE98aio6zVeBSvCNhQ0xz00u9UDGnZqXcsEcR4c0+c2
+M+sJ0BZmKqm3Ao+PVlo0biZAIWWNA8ahg5mbDKUNziK0q/vhBCEGC0FKn0D7TGgCF3JRBxZ1CCrj
+1DfWOTjuuti3e3+g+7jKcjpM3DYqH/fdMkCi7A==
+</ds:SignatureValue>
+<ds:KeyInfo>
+<ds:X509Data>
+<ds:X509Certificate>
+MIIGsTCCBJmgAwIBAgIUXW/MFYI8s1FZkryqXsR1lWMtUwkwDQYJKoZIhvcNAQELBQAwgc4xCzAJ
+BgNVBAYTAktaMRUwEwYDVQQHDAzQkNCh0KLQkNCd0JAxFTATBgNVBAgMDNCQ0KHQotCQ0J3QkDFM
+MEoGA1UECgxD0KDQnNCaIMKr0JzQldCc0JvQldCa0JXQotCi0IbQmiDQotCV0KXQndCY0JrQkNCb
+0KvSmiDSmtCr0JfQnNCV0KLCuzFDMEEGA1UEAww60rDQm9Ci0KLQq9KaINCa0KPTmNCb0JDQndCU
+0KvQoNCj0KjQqyDQntCg0KLQkNCb0KvSmiAoUlNBKTAeFw0xNjEyMTQxMDE0MjNaFw0xNzEyMTQx
+MDE0MjNaMIGZMQ4wDAYDVQQDDAVURVNUMTEYMBYGA1UEBRMPSUlOMTIzNDU2Nzg5MDEyMQswCQYD
+VQQGEwJLWjEVMBMGA1UEBwwM0JDQodCi0JDQndCQMRUwEwYDVQQIDAzQkNCh0KLQkNCd0JAxGDAW
+BgNVBAoMD9CQ0J4gItCi0JXQodCiIjEYMBYGA1UECwwPQklOMTIzNDU2Nzg5MDIxMIIBIjANBgkq
+hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwJbkWJfc/I6vAvSPaQQFp33YUyMYi0YU54sY2jxowVr+
+xVkxMcdQ5JOB6x18CYw84hRa7auuQbwa2DBtgZI7hQsDGVZdpDV7EUVAm6/RqilQAg7efOPPCtWg
+Wm/MzmWJg7SRvbD51mBTV6LTgcwcQ4RX8J72LHOwg7Zv4cb8JztWnk8H+SJ9z+cncRQQYku6gVIg
+hEpRqr0dJYlDNixidmtDMpDia0qAGSnrnCVYf+CE3MYCrIyKyhvoZ1TTLFCcKIcJq4X6H+N7/LdS
+6z/ljf0vDDdmmRvUhzrpD5sm6PsS8SULfwbroaPfKMZS6eeawqdpyjnH5udHUG26F6LniwIDAQAB
+o4IBuDCCAbQwDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggqgw4DAwQBAjAP
+BgNVHSMECDAGgARVtbTiMB0GA1UdDgQWBBRPGCYJDFUIlc0kpDnEGQQycNQPfTA5BgNVHSAEMjAw
+MC4GByqDDgMDAgUwIzAhBggrBgEFBQcCARYVaHR0cDovL3BraS5nb3Yua3ovY3BzMBAGA1UdEQQJ
+MAeCBXRlc3QxME4GA1UdHwRHMEUwQ6BBoD+GHWh0dHA6Ly9jcmwucGtpLmdvdi5rei9yc2EuY3Js
+hh5odHRwOi8vY3JsMS5wa2kuZ292Lmt6L3JzYS5jcmwwUgYDVR0uBEswSTBHoEWgQ4YfaHR0cDov
+L2NybC5wa2kuZ292Lmt6L2RfcnNhLmNybIYgaHR0cDovL2NybDEucGtpLmdvdi5rei9kX3JzYS5j
+cmwwYgYIKwYBBQUHAQEEVjBUMC4GCCsGAQUFBzAChiJodHRwOi8vcGtpLmdvdi5rei9jZXJ0L3Br
+aV9yc2EuY2VyMCIGCCsGAQUFBzABhhZodHRwOi8vb2NzcC5wa2kuZ292Lmt6MA0GCSqGSIb3DQEB
+CwUAA4ICAQArk8kh36WJTQ7gbChw8CkyaDBxYBlQCaEzTNqyjn3MaoU4nYgME8mCgxexN1YktVNv
+wqVQf8lppVFQd1tY9kuXjDiq2oCm55u+0BQtOIUKXqSn0+TXU4O9omCNWQM57KGNE+O4P9W2AMm5
+tqB2AFeEutVrJaI9fmygnG6uD7ocrcuspWHKjMsYQnAmUkokiQ5F5ViCGL/U6pu3/Z57bZYZ+mCD
+dv/kM9Ie+5MIoEa+w30WyE8TAm+15KNcEggahA3JFMiqdfjIp5QYrVquxlDm15AZsdpsKnE+rlBi
+zVP45nYTnf3Nwv1RVxmXMZn9pzH4uiCIkoSvMgUP86VBJTzhn0ZxaoLmPamkJfSxwVGvvTFIcV7h
+nLNXyOiVf0IDWl7wjNWQN/P3G0Zrb5v6wuC7xZ0wSyl/jQgxMxhsK/SjhhkSE7b5K1nWuA2r44sh
+o1Kt6tsl+FR/mYR4MnzazqWWlIV94JTuoDtsBGoi42LvE34d1h7W04qp+xc9N1tn1gaUiFu+jSaD
+Rj79HRvU36WE9hbfkb7b/hvctLlRVA8c5o0G/khwBc1QTS2tJzKbTQourVO7cnu4BvE1glXa3vsU
+6H6dSfLh7jyTAO5gX3OiJZEB7dLYlxYwlAcPI5ytLnOnzsrZLEKMuEyPPS6zoSwmP6Sx+L7P7mug
+VYoUZHqQkw==
+</ds:X509Certificate>
+</ds:X509Data>
+</ds:KeyInfo>
+</ds:Signature></ns3:contractRequest>]]></data>
+            </requestData>
+         </request>
+      </typ:SendMessage>
+   </soapenv:Body>
+</soapenv:Envelope>

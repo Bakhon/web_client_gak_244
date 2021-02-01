@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://contract.services.enbek.kz/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns3="http://schemas.xmlsoap.org/soap/http" xmlns:ns1="http://bip.bee.kz/SyncChannel/v10/Interfaces" name="ContractSyncChannelService" targetNamespace="http://contract.services.enbek.kz/">
+  <wsdl:import location="http://localhost:7001/ws/contract/ContractSyncChannelService?wsdl=ISyncChannel.wsdl" namespace="http://bip.bee.kz/SyncChannel/v10/Interfaces">
+    </wsdl:import>
+  <wsdl:binding name="ContractSyncChannelServiceSoapBinding" type="ns1:ISyncChannel">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="SendMessage">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SendMessage">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SendMessageResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="SendMessageSendMessageFaultMsg">
+        <soap:fault name="SendMessageSendMessageFaultMsg" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ContractSyncChannelService">
+    <wsdl:port binding="tns:ContractSyncChannelServiceSoapBinding" name="ContractSyncChannelPort">
+      <soap:address location="http://localhost:7001/ws/contract/ContractSyncChannelService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

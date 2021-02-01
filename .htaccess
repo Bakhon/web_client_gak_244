@@ -1,0 +1,12 @@
+#Устанавливаем кодировку сервера
+#php_value upload_max_filesize 20M
+#php_value post_max_size 20M
+php_value max_execution_time 200
+php_value max_input_time 200
+AddDefaultCharset utf-8
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !.*\.(ico|gif|jpg|jpeg|png|js|css|tpl)
+RewriteRule .* index.php [L]

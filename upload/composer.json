@@ -1,0 +1,5 @@
+{
+    "require": {
+        "qeti/simple-podata": ">=0.9.1"
+    }
+}

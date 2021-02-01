@@ -1,0 +1,28 @@
+{
+    "name": "qeti/simple-podata",
+    "description": "Library for simple use OData with POData library",
+    "keywords": ["odata", "podata", "rest"],
+    "homepage": "https://github.com/qeti/SimplePOData#readme",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nikolay Matushenkov",
+            "email": "mnvx@yandex.ru",
+            "role": "Creator"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/qeti/SimplePOData/issues",
+        "source": "https://github.com/qeti/SimplePOData"
+    },
+    "require": {
+        "php": ">=5.4.0",
+        "qeti/podata": ">=0.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "qeti\\SimplePOData\\": ""
+        }
+    }
+}

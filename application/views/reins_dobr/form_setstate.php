@@ -3,7 +3,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">                    
-                    <a href="reins_fakultativ?list_contracts" class="btn btn-default"><i class="fa fa-list-alt"></i> Список договоров</a>                                        
+                    <a href="reins_dobr?list_contracts" class="btn btn-default"><i class="fa fa-list-alt"></i> Список договоров</a>                                        
                 </div>
                 <div class="ibox-content" style="float: left;width: 100%;">
                     <?php 

@@ -874,15 +874,16 @@
                           FROM DOBR_DOGOVORS
                          WHERE CNCT_ID = D.CNCT_ID),
                       c.birthdate) and type = (select case when TYPE_STRAHOVATEL = 0 or TYPE_STRAHOVATEL is null then 1 else 2 end type_strah from list_dobr_dogovors where cnct_id = d.cnct_id ))                  
-                    when (D.OSN_POKRITIE is not null or d.osn_pokritie is null) and c.sex = 2 and (dd.type_strahovatel = 0 or dd.type_strahovatel is null) then
+                    when (D.OSN_POKRITIE is not null or d.osn_pokritie is null) and c.sex in (0, 2) and (dd.type_strahovatel = 0 or dd.type_strahovatel is null) then
                       (select female from DOBR_DIC_TARIF_HANNOVER_OSN where AGE = get_age ( (SELECT VIPLAT_BEGIN
                           FROM DOBR_DOGOVORS
                          WHERE CNCT_ID = D.CNCT_ID),
-                      c.birthdate) and type = (select case when TYPE_STRAHOVATEL = 0 or TYPE_STRAHOVATEL is null then 1 else 2 end type_strah from list_dobr_dogovors where cnct_id = d.cnct_id ))                                                 
+                      c.birthdate) and type = (select case when TYPE_STRAHOVATEL = 0 or TYPE_STRAHOVATEL is null then 1 else 2 end type_strah from list_dobr_dogovors where cnct_id = d.cnct_id ))
+                      when B.TYP = 2 then 10     -- если факультатив                                              
                end tarif_osn,
               case
                when (D.OSN_POKRITIE is not null or d.DOP_POKRITIE is not null) and c.sex = 1 and (dd.type_strahovatel = 0 or dd.type_strahovatel is null) then 
-                       (select TARIF from DOBR_DIC_TARIF_HANNOVER_DOPFIZ where AGE = get_age ( (SELECT VIPLAT_BEGIN
+                       (select TARIF from DOBR_DIC_TARIF_HANNOVER_DOPFIZ where TYPE_DOP_POKR = 2 and AGE = get_age ( (SELECT VIPLAT_BEGIN
                           FROM DOBR_DOGOVORS
                          WHERE CNCT_ID = D.CNCT_ID),
                       c.birthdate) and TYPE_DOP_POKR = (select case when TYPE_STRAHOVATEL = 0 or TYPE_STRAHOVATEL is null then 1 else 2 end type_strah from list_dobr_dogovors where cnct_id = d.cnct_id ))      
@@ -1141,6 +1142,167 @@
                                   
         }
         
+        private function dobr_formstate($dan){
+            
+            if($dan == ''){exit;}            
+            
+            $qs = $this->db->Select("select typ from BORDERO_DOBR_DOGOVORS where id = $dan");            
+            $typ = $qs[0]['TYP'];
+            
+            $this->html = '';
+                                             
+            
+            $s = $this->db->Select("select b.*, emp_name(b.emp_id) empname, state_name_bordero(b.state) state_name, reins_name(b.id_reins) reinsname, 
+            (select count(*) from BORDERO_DOBR_DOGOVORS_LIST where id_contracts = b.id) cn_count from BORDERO_DOBR_DOGOVORS b where b.id = $dan");
+            //echo $this->db->sql;
+                        
+            $v = $s[0];
+            $state = $v['STATE'];
+            
+       
+                        
+                                                                            
+            $this->html .= '<div style="height: 600px;overflow: auto;float: left;width: 100%;">';
+                        
+            if($typ == '3'){
+                $this->html .= $this->contract_num_transh($id);                
+            }else{
+                $this->sql_text = "select  
+                        rownum, 
+                        d.NUM_DOG,    
+                          case
+                            when D.TYPE_STRAHOVATEL = 0 or D.TYPE_STRAHOVATEL is null then client_name(D.ID_STRAHOVATEL)
+                            else fond_name(D.ID_STRAHOVATEL)
+                          end strahovatel,                                               
+                        nvl((select cn.bin from CONTR_AGENTS cn where cn.id = d.id_strahovatel), (select cs.iin  from CLIENTS cs where cs.SICID = d.id_strahovatel)) iin,  
+                        d.date_dog, 
+                        R.DATE_BEGIN, 
+                        R.DATE_END,
+                        nvl(R.DATE_BEGIN, d.VIPLAT_BEGIN) reins_DATE_BEGIN,
+                        nvl(R.DATE_end, d.VIPLAT_END) reins_DATE_end,
+                         case
+                         when D.TYPE_STRAHOVATEL = 0 or D.TYPE_STRAHOVATEL is null then '1'
+                         else '(select count(*) as cnct from list_dobr_dogovors_clients where cnct_id = d.id_num)'
+                        end cnct,
+                        D.INS_SUMMA, 
+                        R.PERC_S_GAK,
+                        R.SUM_S_GAK,
+                        R.PERC_S_STRAH,
+                        R.SUM_S_STRAH,
+                        D.INS_PREMIYA,
+                        R.PERC_P_STRAH,
+                        R.SUM_P_STRAH,
+                        R.SUM_P_STRAH SUM_P_STRAHs,
+                        trim(substr(dc.PERIODICH, 1)) PERIODICH
+                        from dobr_dogovors d , DOBR_DOGOVORS_CLIENTS dc,reinsurance R, BORDERO_DOBR_DOGOVORS bd, BORDERO_DOBR_DOGOVORS_LIST bdl
+                        where bd.id = $dan and BDL.ID_CONTRACTS = bd.id and BDL.CNCT_ID = d.id_num and  D.ID_NUM  = R.ID_DOBR and D.ID_NUM = dc.cnct_id";
+             /*  echo '<pre>';
+               echo $this->sql_text;
+               echo '</pre>'; */
+               $q = $this->db->Select($this->sql_text);
+               $this->q_dan1 = $q;
+            
+                $html = '';
+                $html .= '<style type="text/css">        
+                table {
+                    width: 100%;
+                    border-collapse: collapse;                
+                }
+                table, td, th {
+                    border: 1px solid black;                
+                    font-size: 10px;
+                    font-family: "Times New Roman";                
+                }
+                
+                td, th{
+                    padding-left: 5px;
+                    padding-right: 5px;
+                }
+                th{
+                    background-color: #F5F5F6;
+                }            
+                </style>';
+                            
+                $html .= '<div style="float: left; width: 100%;"><table border="1"><thead>
+                            <tr>
+                                <th rowspan="2">№</th>
+                                <th rowspan="2">№ договора страхования</th>                                                            
+                                <th rowspan="2">Страхователь</th>
+                                <th rowspan="2">БИН/ИИН</th>                                
+                                <th rowspan="2">Дата заключения основного договора</th>                                
+                                <th rowspan="2">Начало действия договора страхования</th>
+                                <th rowspan="2">Окончание действия договора страхования</th>
+                                <th rowspan="2">Начало действия периода перестрахования</th>
+                                <th rowspan="2">Окончание действия перестрахования</th>
+                                <th rowspan="2">Кол-во застрахованных</th>                            
+                                <th rowspan="2">Страховая сумма</th>                                                           
+                                <th colspan="2">Собственное удержание </th>
+                                <th colspan="2">Ответственность перестраховщика</th>
+                                <th rowspan="2">Страховая премия по договору</th>
+                                <th colspan="2">Перестраховочная премия</th>
+                                <th rowspan="2">Перестраховочная премия к оплате</th>
+                                <th rowspan="2">Условия оплаты страховой премии</th>                                
+                            </tr>
+                            <tr>                                                        
+                                <th>%</th>
+                                <th>Сумма</th>
+                                <th>%</th>
+                                <th>Сумма</th>                            
+                                <th>%</th>
+                                <th>Сумма</th>                                                                                    
+                            </tr>
+                        </thead>
+                        <tbody>';
+                foreach($q as $k=>$v)
+                {
+                    $html .= '<tr>';
+                    foreach($v as $i=>$d)
+                    {                     
+                        if(substr($d, 0, 1) == ','){
+                            $html .= '<td><center>0'.$d.'</center></td>';
+                        }elseif(substr($d, 0, 1) == '.'){
+                            $html .= '<td><center>0'.$d.'</center></td>';
+                        }else{
+                            $html .= '<td><center>'.$d.'</center></td>';    
+                        }
+                    }
+                    $html .= '</tr>';
+                }
+                
+                $ds = $this->db->Select("select sum(d.INS_SUMMA) strah_sum,
+                null per, 
+                sum(r.sum_s_gak) sum_s_gak, 
+                null per_s_gak,
+                sum(r.SUM_S_STRAH) sum_s_strah, 
+                sum(r.OSNS_SUMP) strah_pay,
+                null st,
+                sum(bdl.PAY_SUM) pay_sum,
+                sum(bdl.PAY_SUM_OPL) pay_sum_opl,
+                null periodich
+                from dobr_dogovors d, reinsurance r, bordero_dobr_dogovors_list bdl, bordero_dobr_dogovors bd
+                where D.ID_NUM = R.ID_DOBR and d.id_num = BDL.CNCT_ID and BDL.ID_CONTRACTS = bd.id and bd.id = $dan");
+                
+                $this->q_dan2 = $ds;                
+                foreach($ds as $k=>$v){
+                    $html .= '<tr>
+                        <td colspan="1"></td>
+                        <td><center>Итого:</center></td>
+                        <td colspan="8"></td>
+                        ';                                                
+                    foreach($v as $i=>$d){
+                        $html .= '<td><center>'.$d.'</center></td>';                                              
+                    }
+                    
+                    $html .= '</tr>';
+                }
+                $html .= '</tbody></table>';
+               
+           
+                $this->html .= $html; //$this->contract_num($v['CONTRACT_NUM']);    
+            }                        
+            $this->html .= '</div>';                                
+        }
+        
         private function export($dan)
         {
             if(method_exists($this, $dan)){
@@ -1190,6 +1352,8 @@
             }
             if(isset($_GET['dobr_contract_num'])){
                 $c = $_GET['dobr_contract_num'];
+            }if(isset($_GET['dobr_formstate'])){
+                $c = $_GET['dobr_formstate'];
             }
 
             error_reporting(E_ALL);

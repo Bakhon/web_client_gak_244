@@ -57,15 +57,22 @@
                             if($_POST['id_uv'] == '2'){
                                 $prim = 'Нестандартный договор';
                             }
-                        }
-                        foreach($reins->dan as $k=>$v){
+                        }                        
+                        foreach($reins->dan as $k=>$v){                             
+                            $input_tarif = '';
+                            $input_nadbavka = '';
+                            if($reins->reins_vid == '3'){
+                              $input_tarif = '<input type="number" class="form-control tarif_fak" />';
+                              $input_nadbavka = '<input type="number" class="form-control nadbavka_fak" />';  
+                            }
+                            
                             echo '
                             <tr class="reins_dog" data="'.$v['CNCT_ID'].'">
                                 <td>'.$v['NUM_DOG'].'</td>                        
                                 <td>Новый</td>
                                 <td>'.$v['STRAHOVATEL'].'</td>
                                 <td> '.$v['OSN_POKR'].'</td>
-                                <td></td>
+                                <td><input type="hidden" class="form-control type_pokr" value="1" /></td>
                                 <td style="width: 100px;" class="pay_sum_v" id="'.$v['CNCT_ID'].'">'.StrToFloat($v['INS_SUMMA']).'</td>                                
                                 <td style="width: 100px;">
                                     <input type="number" data="'.$v['CNCT_ID'].'" min="'.$v['MIN_PP'].'" max="100" id="'.$v['CNCT_ID'].'" class="form-control gak_proc" value="0">
@@ -74,8 +81,12 @@
                                 <td style="width: 70px;" class="reins_proc" id="'.$v['CNCT_ID'].'">0</td>
                                 <td style="width: 130px;" class="reins_summa" id="'.$v['CNCT_ID'].'">0</td>
                                 <td style="width: 130px;"class="pay_sum_p" id="'.$v['CNCT_ID'].'">'.$v['INS_PREMIYA'].'</td>
-                                <td class="tarif" id="'.$v['CNCT_ID'].'"></td>
-                                <td class="allowance" id="'.$v['CNCT_ID'].'"></td>
+                                <td class="tarif" id="'.$v['CNCT_ID'].'">
+                                '.$input_tarif.'
+                                </td>
+                                <td class="allowance" id="'.$v['CNCT_ID'].'">
+                                '.$input_nadbavka.'
+                                </td>
                                 <td style="width: 100px;">
                                     <input type="number" data="'.$v['CNCT_ID'].'"  class="form-control prs_prem_proc" min="'.$v['MIN_PP'].'" max="100" id="'.$v['CNCT_ID'].'" value="0">
                                 </td>
@@ -92,7 +103,7 @@
                                 <td>'.$v['NUM_DOG'].'</td>                        
                                 <td>Новый</td>
                                 <td>'.$v['STRAHOVATEL'].'</td>
-                                <td> </td>
+                                <td><input type="hidden" class="form-control dop_pokr" value="2" /> </td>
                                 <td> '.$v['DOP_POKR'].'</td>
                                 <td style="width: 100px;" class="pay_sum_v" id="'.$v['CNCT_ID'].'">'.StrToFloat($v['INS_SUMMA']).'</td>                                
                                 <td style="width: 100px;">
@@ -104,7 +115,7 @@
                                 <td style="width: 130px;"class="pay_sum_p" id="'.$v['CNCT_ID'].'">'.$v['INS_PREMIYA'].'</td>
                                  <td id="'.$v['CNCT_ID'].'" class="dop_tarif"></td>
                                  <td class="allowance" id="'.$v['CNCT_ID'].'"></td>
-                                <td style="width: 100px;">
+                                <td style="width: 100px;">                                    
                                     <input type="number" data="'.$v['CNCT_ID'].'"  class="form-control prs_prem_proc" min="'.$v['MIN_PP'].'" max="100" id="'.$v['CNCT_ID'].'" value="0">
                                 </td>                               
                                 <td style="width: 100px;"class="prs_prem_summa_dop" id="'.$v['CNCT_ID'].'">0</td>
@@ -269,17 +280,24 @@ $('.gak_proc').keyup(function(e){
     var gak_summa = vs * (p / 100);
     var pay_sum_p = ps * (res / 100);
     console.log(ps+' * '+'('+res+' / 100)');
-                           
+    var tarif = $('.tarif_fak').val();
+    console.log(tarif); 
+    var nadbavka_fak = $('.nadbavka_fak').val();
+    console.log(nadbavka_fak);
+           var nagruzka = 1;
+           var sdr =  rastr(tarif); 
+           var prsr =  (reins_summa * sdr)/1000*nagruzka*nadbavka_fak;
+                          
     $('#'+id+'.reins_proc').html(rasr(res.toFixed(2)));
     $('#'+id+'.prs_prem_proc').val(rasr(res.toFixed(2)));    
     $('#'+id+'.reins_summa').html(rasr(reins_summa.toFixed(2)));
     $('#'+id+'.gak_summa').html(rasr(gak_summa.toFixed(2)));    
-    $('#'+id+'.prs_prem_summa').html(rasr(pay_sum_p.toFixed(2)));
+    $('#'+id+'.prs_prem_summa').html(rasr(prsr.toFixed(2)));
     
     if(id_uv == 2){
         $('#'+id+'.prs_prem_opls').html(0);
     }else{
-        $('#'+id+'.prs_prem_opls').html(rasr(pay_sum_p.toFixed(2)));    
+        $('#'+id+'.prs_prem_opls').html(rasr(prsr.toFixed(2)));    
     }
         
     if(type_period == 2){        
@@ -320,12 +338,21 @@ $('.prs_prem_proc').keyup(function(e){
     // console.log(vs +' * ' + ' ('+p+' / 100)');
     var pay_sum_p = ps * (p / 100);
     console.log(ps+' * '+'('+p+' / 100)');
-    $('#'+id+'.prs_prem_opls').html(rasr(pay_sum_p.toFixed(2)));                       
+    
+        var tarif = $('.tarif_fak').val();
+    console.log(tarif); 
+    var nadbavka_fak = $('.nadbavka_fak').val();
+    console.log(nadbavka_fak);
+           var nagruzka = 1;
+           var sdr =  rastr(tarif); 
+           var prsr =  (reins_summa * sdr)/1000*nagruzka*nadbavka_fak;
+    
+    $('#'+id+'.prs_prem_opls').html(rasr(prsr.toFixed(2)));                       
    // $('#'+id+'.reins_proc').html(rasr(p));
   //  $('#'+id+'.gak_proc').val(rasr(res.toFixed(2)));    
   //  $('#'+id+'.reins_summa').html(rasr(reins_summa.toFixed(2)));
    // $('#'+id+'.gak_summa').html(rasr(gak_summa.toFixed(2)));    
-    $('#'+id+'.prs_prem_summa').html(rasr(pay_sum_p.toFixed(2))); 
+    $('#'+id+'.prs_prem_summa').html(rasr(prsr.toFixed(2))); 
     
 })
 
@@ -349,7 +376,9 @@ $('#save_reins').click(function(){
         ds.reins_id = '<?php echo $_POST['reins_name']; ?>';
         ds.contract_num = '<?php echo $_POST['contract_num']; ?>';
         ds.contract_date = '<?php echo $_POST['contract_date']; ?>';
-        
+        ds.type_pokr = $('.type_pokr').val();
+        ds.dop_pokr = $('.dop_pokr').val();
+        ds.tarif_fak = $('.tarif_fak').val();
         ds.gak_proc = $('#'+id+'.gak_proc').val();
         ds.gak_summa = $('#'+id+'.gak_summa').html();
         ds.reins_proc = $('#'+id+'.reins_proc').html();
@@ -371,8 +400,7 @@ $('#save_reins').click(function(){
         }
      ?>  
      $.post(window.location.href, {"id_head": id_head, "save_reins_contr_num": dan, "id_uv":id_uv}, function(data){
-        $('.wrapper-content').prepend(data);
-        //ExecuteScript(data);        
+        $('.wrapper-content').prepend(data);             
      });
 });
 </script>

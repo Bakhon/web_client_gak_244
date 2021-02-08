@@ -16,14 +16,16 @@
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">                    
                                     <h3>                    
-                                    <a href="reins_dobr" class="btn btn-default pull-right btn-sm">Назад</a>                                      
+                                    <a href="reins_dobr" class="btn btn-default pull-right btn-sm">Назад</a>
+                                    <a href="reins_dobr?list_contracts" class="btn btn-danger btn-sm pull-right" style="margin-right: 15px;"><i class="fa fa-close"></i></a>
+                                    <a href="#" class="btn btn-warning btn-sm pull-right" data-toggle="modal" data-target="#filter" style="margin-right: 15px;"><i class="fa fa-filter"></i></a>                                      
                                     Список договоров</h3>                                    
                                 </div>
                                 <div class="ibox-content">
                                     <div class="panel-group" id="accordion">
                                     <?php 
                                         $i = 0;
-                                        foreach($reins->dan['list_contracts'] as $k=>$v){
+                                        foreach($reins->dan['list_contracts'] as $k=>$v){                                        
                                             $bordero_id = $v['lists'][0]['BORDERO_ID'];                                            
                                             $i++;
                                             $note = '<i style="margin-left: 15px;">'.$v['NOTE'].'</i>';                                                     
@@ -37,11 +39,7 @@
                                                         <div class="btn-group">
                                                             <button data-toggle="dropdown" class="btn btn-primary drop down-toggle" aria-expanded="false"><i class="fa fa-cog"></i> <span class="caret"></span></button>
                                                             <ul class="dropdown-menu">                                                                                                
-                                                                ';
-                                                                if(trim($v['NUM_RASP']) !== ''){
-                                                                  echo '<li class="divider"></li>
-                                                                    <li><a href="reins_bordero?print_rasp='.$v['ID'].'" target="_blank">Печать распоряжения</a></li>';    
-                                                                }
+                                                                ';                                                              
                                                                 echo '
                                                                    <li><a href="print?id='.$v['ID'].'" target="_blank"><i class="fa fa-2x fa-file-text-o"></i> Печать договора</a></li>
                                                                 <li><a href="reins_export?dobr_contract_num='.$v['ID'].'&&export=html" target="_blank"><i class="fa fa-2x fa-html5"></i> HTML</a></li>
@@ -52,7 +50,7 @@
                                                                 ';
                                                                 if(trim($v['NUM_RASP']) !== ''){
                                                                   echo '<li class="divider"></li>
-                                                                    <li><a href="reins_bordero?print_rasp='.$v['ID'].'" target="_blank">Печать распоряжения</a></li>';    
+                                                                    <li><a href="reins_dobr?print_rasp='.$v['ID'].'" target="_blank">Печать распоряжения</a></li>';    
                                                                 }
                                                                 echo '<li class="divider"></li>
                                                                 <li><a href="#" data-toggle="modal" class="contracts_files" data="'.$v['ID'].'" data-target="#modal_files"><i class="fa fa-file-o"></i> Файлы</a></li>
@@ -68,10 +66,10 @@
                                                                     echo '<li><a href="javascript:;" class="send_replace" id="'.$v['ID'].'">Повторно уведомить</a></li>';
                                                                 }
                                                                 if($v['STATE'] !== '8'){
-                                                    echo '<li><a href="reins_bordero?move_contract='.$v['ID'].'" target="_blank">Создать перенос договоров</a></li>';
+                                                    echo '<li><a href="reins_dobr?move_contract='.$v['ID'].'" target="_blank">Создать перенос договоров</a></li>';
                                                     echo '
                                                     <li class="divider"></li>
-                                                    <li><a href="reins_fakultativ?delete_contracts='.$v['ID'].'">Удалить договора страхования</a></li>                                        
+                                                    <li><a href="reins_dobr?delete_contracts='.$v['ID'].'">Удалить договора страхования</a></li>                                        
                                                     <li><a href="javascript:;" class="delete_contract" id="'.$v['ID'].'">Удалить договор перестрахования</a></li>
                                                     ';
                                                 }else{
@@ -90,7 +88,7 @@
                                                                 if($v['PAY_SUM'] < 0){
                                                                     echo  '
                                                                         <li class="divider"></li>
-                                                                        <li><a href="reins_fakultativ?shet_opl='.$v['ID'].'" target="_blank">Печать счета на оплату</a></li>                                            
+                                                                        <li><a href="reins_dobr?shet_opl='.$v['ID'].'" target="_blank">Печать счета на оплату</a></li>                                            
                                                                         ';
                                                                     if(($v['STATE'] == '8')&&($v['MHMH_ID'] == '')){                                            
                                                                         echo '<li><a href="#" data="'.$v['ID'].'" data-toggle="modal" data-target="#kvitovanie" class="btn_plat">Привязать платежное поручение</a></li>';
@@ -195,7 +193,7 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title">Поиск и фильтрация</h4>
             </div>
-            <form method="get">
+            <form method="get" id="form_filter">
             <div class="modal-body">
                 <div class="form-horizontal">
                     <h3>Показать за период</h3>                    
@@ -227,11 +225,16 @@
                             ?>
                         </select>
                     </div>
-                    
+                  
                     <div class="form-group">  
+                        <label><input type="checkbox" name="obligator"/>Облигатор</label>                        
+                        <label><input type="checkbox" name="fakultativ"/>Факультатив</label>
+                    </div>
+                    
+              <!--      <div class="form-group">  
                         <label><input type="checkbox" name="main_dog"/>Основной договор</label>                        
                         <label><input type="checkbox" name="dop_dog"/>Дополнительное соглашение</label>
-                    </div>
+                    </div>  -->
                     
                     <input type="hidden" name="list_contracts"/>
                 </div>
@@ -263,16 +266,23 @@
 </div>
 
 <?php 
-    require_once __DIR__.'/../reinsurance/modal_vozvrat.php';
+    require_once __DIR__.'/../reins_dobr_forms/modal_vozvrat.php';
     require_once __DIR__.'/../reinsurance/modal_kvit.php';
-    require_once __DIR__.'/../reinsurance/modal_note_rasp.php';
-    require_once __DIR__.'/../reinsurance/modal_files.php';
+    require_once __DIR__.'/../reins_dobr_forms/modal_note_rasp.php';
+    require_once __DIR__.'/../reins_dobr_forms/modal_files.php';
 ?>
 
 <script>
+
 $('.set_filter').click(function(){
     var date_begin =  $('input[name=date_begin]').val();
     var date_end =  $('input[name=date_end]').val();
     var state =  $('').val();    
-});
+}); 
+
+  /*  $('.set_filter').click(function(){
+        $('#form_filter').submit();
+    });
+*/
+
 </script>

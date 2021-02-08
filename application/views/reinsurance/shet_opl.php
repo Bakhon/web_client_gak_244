@@ -119,8 +119,8 @@
             <td style="width: 20%;"><b>Исполнитель: </b></td>
             <td style="border-bottom: solid 1px;"></td>        
             <!--<td style="width: 50%;">/Карлыгашева Д.Б./</td>-->
-            <td style="width: 50%;">/Абдыгалиева Л.А./</td>
-           <!-- <td style="width: 50%;">/Шамшуалеева А.Б./</td> -->
+          <!--  <td style="width: 50%;">/Абдыгалиева Л.А./</td> -->
+            <td style="width: 50%;">/Шамшуалеева А.Б./</td> 
         </tr> 
         <tr>
             <td style="width: 20%;"></td>
@@ -137,7 +137,7 @@
         <tr>
             <td style="width: 20%;"><b>Согласовано: </b></td>
             <td style="border-bottom: solid 1px;"></td>        
-            <td style="width: 50%;">/Акажанов А.А./</td>
+            <td style="width: 50%;">/Амерходжаев Г.Т./</td>
         </tr>
               
     </tbody>
